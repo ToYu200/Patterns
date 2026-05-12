@@ -1,3 +1,9 @@
+// Re-export all types for convenient importing
+export * from './common';
+export * from './api';
+
+// Legacy exports - these will be deprecated
+// Use new entities from src/entities instead
 export interface Player {
   id: string;
   nickname: string;
