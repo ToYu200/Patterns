@@ -23,3 +23,17 @@ export interface Tournament {
   players: number;
   prize?: string;
 }
+
+export interface AuthUser {
+  id: string;
+  username: string;
+  email: string;
+  displayName?: string;
+  role: string;
+  elo: number;
+}
+
+export interface AuthResult {
+  token: string;
+  user: AuthUser;
+}

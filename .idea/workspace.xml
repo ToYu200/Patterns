@@ -1,15 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="AutoImportSettings">
-    <option name="autoReloadType" value="SELECTIVE" />
+    <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3d448bbc-6395-4fab-a9f5-3feb5182cd19" name="Changes" comment="dsadsa" />
+    <list default="true" id="3d448bbc-6395-4fab-a9f5-3feb5182cd19" name="Changes" comment="dsadsa">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/LeaderboardTable.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/LeaderboardTable.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/MatchList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/MatchList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/TopPlayers.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/TopPlayers.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/layouts/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/layouts/Header.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/layouts/Sidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/layouts/Sidebar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/mock/data.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/mock/data.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/navigation.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/navigation.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/FindMatch.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/FindMatch.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Home.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Profile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Profile.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/router/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/router/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/types/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/types/index.ts" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="EmbeddingIndexingInfo">
+    <option name="cachedIndexableFilesCount" value="44" />
+  </component>
+  <component name="GOROOT" url="file://$PROJECT_DIR$/../../../../../../Program Files/Go" />
   <component name="Git.Settings">
     <excluded-from-favorite>
       <branch-storage>
@@ -26,12 +46,12 @@
     </excluded-from-favorite>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "ToYu200"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;ToYu200&quot;
   }
-}]]></component>
+}</component>
   <component name="GitRewordedCommitMessages">
     <option name="commitMessagesMapping">
       <RewordedCommitMessageMapping>
@@ -42,15 +62,19 @@
     <option name="currentCommit" value="1" />
     <option name="onto" value="dcd532838ed5bb0ddaa3df8d6f8e40bdae6a27ed" />
   </component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/ToYu200/Patterns.git",
-    "accountId": "fa1db3df-bd91-4c16-b3db-da3b599e48ee"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/ToYu200/Patterns.git&quot;,
+    &quot;accountId&quot;: &quot;fa1db3df-bd91-4c16-b3db-da3b599e48ee&quot;
   }
-}]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 0
-}]]></component>
+}</component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="3DLwuVWmUr9L6297M9VbbiL2kRD" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -59,24 +83,34 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.GoLinterPluginOnboardingV2": "true",
+    "RunOnceActivity.GoLinterPluginStorageMigration": "true",
+    "RunOnceActivity.MCP Project settings loaded": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.go.analysis.ui.options.defaults": "true",
+    "RunOnceActivity.go.formatter.settings.were.checked": "true",
+    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "git-widget-placeholder": "backend-rot-ebal",
+    "go.sdk.automatically.set": "true",
     "javascript.preferred.runtime.type.id": "node",
-    "last_opened_file_path": "/Users/anatolijandreev/Patterns",
+    "last_opened_file_path": "C:/Users/Kirill/Desktop/2kurs/patterns-proektirovan/Patterns",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "ts.external.directory.path": "/Applications/WebStorm.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external",
+    "ts.external.directory.path": "C:\\Users\\Kirill\\Desktop\\2kurs\\patterns-proektirovan\\Patterns\\frontend\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-WS-253.29346.242" />
+        <option value="bundled-gosdk-72a9cf600ed8-3dd3895e5e08-org.jetbrains.plugins.go.sharedIndexes.bundled-GO-261.23567.143" />
+        <option value="bundled-js-predefined-d6986cc7102b-31caf2ab9e3c-JavaScript-GO-261.23567.143" />
       </set>
     </attachedChunks>
   </component>

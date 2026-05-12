@@ -2,6 +2,7 @@ import React from 'react';
 import { Burger, Group, Title, Button, Box } from '@mantine/core';
 import { Link, useLocation } from 'react-router-dom';
 import { PRIMARY_NAV, isNavActive } from '../navigation';
+import { useAuth } from '../hooks/useAuth';
 
 type HeaderBarProps = {
   mobileNavOpened: boolean;
@@ -15,6 +16,7 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({
   onNavigate,
 }) => {
   const { pathname } = useLocation();
+  const { user, logout } = useAuth();
 
   return (
     <Group justify="space-between" align="center" h="100%" px="md" wrap="nowrap" gap="sm">
@@ -47,6 +49,26 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({
               {label}
             </Button>
           ))}
+          {user ? (
+            <>
+              <Button
+                component={Link}
+                to={`/profile/${user.id}`}
+                variant={isNavActive(pathname, '/profile/') ? 'light' : 'subtle'}
+                size="compact-xs"
+                onClick={onNavigate}
+              >
+                {user.username}
+              </Button>
+              <Button size="compact-xs" variant="subtle" color="red" onClick={logout}>
+                Выйти
+              </Button>
+            </>
+          ) : (
+            <Button component={Link} to="/login" size="compact-xs" variant="light" onClick={onNavigate}>
+              Войти
+            </Button>
+          )}
         </Group>
       </Box>
     </Group>

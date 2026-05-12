@@ -1,11 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { players, matches } from '../mock/data';
 import { Container, Avatar, Title, Text, Card, Grid, Progress } from '@mantine/core';
+import type { Match, Player } from '../types';
+import { fetchMatches, fetchPlayer } from '../api/platform';
 
 const Profile: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const player = players.find((p) => p.id === id) || players[0];
+  const [player, setPlayer] = useState<Player | null>(null);
+  const [matches, setMatches] = useState<Match[]>([]);
+
+  useEffect(() => {
+    fetchPlayer(id ?? '').then(setPlayer);
+    fetchMatches(20).then(setMatches);
+  }, [id]);
+
+  if (!player) {
+    return null;
+  }
+
   const history = matches.filter((m) => m.players.includes(player.id));
 
   return (

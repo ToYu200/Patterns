@@ -1,12 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Title, Button, Grid, Card } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import TopPlayers from '../components/TopPlayers';
 import MatchList from '../components/MatchList';
 import TournamentCard from '../components/TournamentCard';
-import { tournaments } from '../mock/data';
+import type { Tournament } from '../types';
+import { fetchTournaments } from '../api/platform';
 
 const Home: React.FC = () => {
+  const [tournaments, setTournaments] = useState<Tournament[]>([]);
+
+  useEffect(() => {
+    fetchTournaments(8).then(setTournaments);
+  }, []);
+
   return (
     <Container size="lg">
       <Card shadow="md" padding="lg" mb="md" withBorder>

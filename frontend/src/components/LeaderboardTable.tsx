@@ -1,11 +1,18 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Table, Text, Badge, Stack } from '@mantine/core';
-import { players, DEMO_CURRENT_USER_ID } from '../mock/data';
+import { DEMO_CURRENT_USER_ID } from '../mock/data';
+import type { Player } from '../types';
+import { fetchPlayers } from '../api/platform';
 
 export const LeaderboardTable: React.FC = () => {
-  const sorted = useMemo(() => [...players].sort((a, b) => b.elo - a.elo), []);
+  const [players, setPlayers] = useState<Player[]>([]);
+  const sorted = useMemo(() => [...players].sort((a, b) => b.elo - a.elo), [players]);
   const yourPlace = sorted.findIndex((p) => p.id === DEMO_CURRENT_USER_ID) + 1;
   const you = sorted.find((p) => p.id === DEMO_CURRENT_USER_ID);
+
+  useEffect(() => {
+    fetchPlayers(50).then(setPlayers);
+  }, []);
 
   const rows = sorted.map((p, idx) => {
     const isYou = p.id === DEMO_CURRENT_USER_ID;

@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { Container, Select, Button, Group, Card, Text, Stack } from '@mantine/core';
+import { Alert, Container, Select, Button, Group, Card, Text, Stack } from '@mantine/core';
 import { useMatchmaking } from '../hooks/useMatchmaking';
 import type { MatchmakingMode, MatchmakingRegion } from '../context/matchmakingContext';
 import { MODE_LABEL_RU, REGION_LABEL_RU } from '../matchmakingLabels';
+import { useAuth } from '../hooks/useAuth';
+import { cancelMatchmaking, startMatchmaking } from '../api/platform';
 
 const MODES_GAME: { value: MatchmakingMode; label: string }[] = [
   { value: '1v1', label: MODE_LABEL_RU['1v1'] },
@@ -18,8 +20,31 @@ const REGIONS: { value: MatchmakingRegion; label: string }[] = [
 
 const FindMatch: React.FC = () => {
   const { searching, startSearch, cancelSearch, secondsInQueue, mode, region } = useMatchmaking();
+  const { token } = useAuth();
   const [selMode, setSelMode] = useState<MatchmakingMode>(mode);
   const [selRegion, setSelRegion] = useState<MatchmakingRegion>(region);
+  const [ticketId, setTicketId] = useState('');
+  const [error, setError] = useState('');
+
+  const handleStart = async () => {
+    setError('');
+    if (!token) {
+      setError('Для поиска матча нужно войти в аккаунт.');
+      return;
+    }
+    const ticket = (await startMatchmaking(token, selMode, selRegion)) as { id: string };
+    setTicketId(ticket.id);
+    startSearch(selMode, selRegion);
+  };
+
+  const handleCancel = async () => {
+    setError('');
+    if (token && ticketId) {
+      await cancelMatchmaking(token, ticketId);
+    }
+    setTicketId('');
+    cancelSearch();
+  };
 
   return (
     <Container size="sm">
@@ -29,6 +54,7 @@ const FindMatch: React.FC = () => {
           Состояние очереди хранится в контексте (без сервера).
         </Text>
         <Stack gap="md" mt="md">
+          {error && <Alert color="red">{error}</Alert>}
           <Group align="flex-end" wrap="wrap" grow>
             <Select
               label="Режим"
@@ -47,9 +73,9 @@ const FindMatch: React.FC = () => {
           </Group>
 
           {!searching ? (
-            <Button onClick={() => startSearch(selMode, selRegion)}>Начать поиск</Button>
+            <Button onClick={handleStart}>Начать поиск</Button>
           ) : (
-            <Button color="red" variant="light" onClick={() => cancelSearch()}>
+            <Button color="red" variant="light" onClick={handleCancel}>
               Отменить поиск
             </Button>
           )}
