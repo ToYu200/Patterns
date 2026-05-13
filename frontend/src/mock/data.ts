@@ -1,6 +1,6 @@
 import type { Player, Match, Tournament } from '../types';
 
-export const DEMO_CURRENT_USER_ID = 'p1';
+export const DEMO_CURRENT_USER_ID = '7f4a2f35-8d10-4e0f-a0af-96e81a8c9e21';
 
 export const players: Player[] = [
   { id: 'p1', nickname: 'ZeroCool', elo: 2100, rank: 'Алмаз', winrate: 62, games: 540, favoriteGame: 'CS:GO', avatar: '' },
