@@ -1,53 +1,37 @@
 import React from 'react';
-import { NavLink, Stack, Text } from '@mantine/core';
-import { Link, useLocation } from 'react-router-dom';
-import { PRIMARY_NAV, isNavActive } from '../navigation';
-import { useAuth } from '../hooks/useAuth';
+import { NavLink, Stack } from '@mantine/core';
+import { Link } from 'react-router-dom';
 
-type SidebarProps = {
-  /** Закрыть мобильное меню после перехода по ссылке. */
-  onNavigate?: () => void;
-};
-
-export const Sidebar: React.FC<SidebarProps> = ({ onNavigate }) => {
-  const { pathname } = useLocation();
-  const { user, logout } = useAuth();
+export const Sidebar: React.FC = () => {
+  const links = [
+    { label: 'Home', to: '/' },
+    { label: 'Find Match', to: '/find' },
+    { label: 'Leaderboard', to: '/leaderboard' },
+    { label: 'Profile', to: '/profile/p1' },
+  ];
 
   return (
-    <Stack gap="xs">
-      <Text fw={700} size="sm" c="dimmed">
-        Разделы
-      </Text>
-      {PRIMARY_NAV.map(({ to, label }) => (
+    <Stack
+      gap="xs"
+      p="md"
+      style={{
+        borderRight: '1px solid rgba(255,140,66,0.1)',
+        backgroundColor: 'rgba(10, 14, 21, 0.4)',
+        minWidth: 200,
+      }}
+    >
+      {links.map(({ to, label }) => (
         <NavLink
           key={to}
           label={label}
           component={Link}
           to={to}
-          active={isNavActive(pathname, to)}
-          onClick={() => onNavigate?.()}
+          style={{ cursor: 'pointer' }}
+          classNames={{
+            root: 'sidebar-link',
+          }}
         />
       ))}
-      {user ? (
-        <>
-          <NavLink
-            label={`Профиль: ${user.username}`}
-            component={Link}
-            to={`/profile/${user.id}`}
-            active={pathname.startsWith('/profile')}
-            onClick={() => onNavigate?.()}
-          />
-          <NavLink label="Выйти" color="red" onClick={logout} />
-        </>
-      ) : (
-        <NavLink
-          label="Войти"
-          component={Link}
-          to="/login"
-          active={pathname === '/login'}
-          onClick={() => onNavigate?.()}
-        />
-      )}
     </Stack>
   );
 };

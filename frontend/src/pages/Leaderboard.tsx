@@ -8,7 +8,7 @@ const Leaderboard: React.FC = () => {
       <Card padding="md" withBorder>
         <Title order={3}>Рейтинг</Title>
         <Text size="sm" c="dimmed" mt={4}>
-          Топ игроков по рейтингу ELO МОКИ.
+          Топ игроков по рейтингу ELO.
         </Text>
         <LeaderboardTable />
       </Card>
