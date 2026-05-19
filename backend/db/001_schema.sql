@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS users (
     display_name VARCHAR(100),
     avatar_url TEXT,
     elo INT DEFAULT 1500,
-    role VARCHAR(20) DEFAULT 'player',
+    role VARCHAR(20) DEFAULT 'player' CHECK (role IN ('player', 'organizer', 'coach')),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
