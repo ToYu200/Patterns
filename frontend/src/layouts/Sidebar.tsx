@@ -2,7 +2,11 @@ import React from 'react';
 import { NavLink, Stack } from '@mantine/core';
 import { Link } from 'react-router-dom';
 
-export const Sidebar: React.FC = () => {
+type SidebarProps = {
+  onNavigate: () => void;
+};
+
+export const Sidebar: React.FC<SidebarProps> = ({ onNavigate }) => {
   const links = [
     { label: 'Home', to: '/' },
     { label: 'Find Match', to: '/find' },
@@ -26,6 +30,7 @@ export const Sidebar: React.FC = () => {
           label={label}
           component={Link}
           to={to}
+          onClick={onNavigate}
           style={{ cursor: 'pointer' }}
           classNames={{
             root: 'sidebar-link',

@@ -6,6 +6,7 @@ type Player struct {
 	ID           string `json:"id"`
 	Nickname     string `json:"nickname"`
 	Avatar       string `json:"avatar,omitempty"`
+	Role         string `json:"role,omitempty"`
 	ELO          int    `json:"elo"`
 	Rank         string `json:"rank,omitempty"`
 	Winrate      int    `json:"winrate"`
@@ -19,6 +20,31 @@ type Match struct {
 	Result  string   `json:"result,omitempty"`
 	Date    string   `json:"date"`
 	Map     string   `json:"map,omitempty"`
+}
+
+type ELOChange struct {
+	UserID string `json:"userId"`
+	Before int    `json:"before"`
+	After  int    `json:"after"`
+	Delta  int    `json:"delta"`
+}
+
+type MatchRatingResult struct {
+	MatchID string      `json:"matchId"`
+	Winner  string      `json:"winner"`
+	Changes []ELOChange `json:"changes"`
+}
+
+type Coach struct {
+	ID        string `json:"id"`
+	Nickname  string `json:"nickname"`
+	Avatar    string `json:"avatar,omitempty"`
+	ELO       int    `json:"elo"`
+	Rank      string `json:"rank,omitempty"`
+	Games     int    `json:"games"`
+	Winrate   int    `json:"winrate"`
+	Specialty string `json:"specialty"`
+	Bio       string `json:"bio"`
 }
 
 type Tournament struct {
