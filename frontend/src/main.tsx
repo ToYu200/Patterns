@@ -4,8 +4,9 @@ import '@mantine/core/styles.css';
 import './index.css';
 import App from './App';
 import { MantineProvider, rem } from '@mantine/core';
+import type { MantineThemeOverride } from '@mantine/core';
 
-const theme = {
+const theme: MantineThemeOverride = {
   fontFamily: "'Orbitron', system-ui, sans-serif",
   primaryColor: 'orange',
   components: {
@@ -36,7 +37,7 @@ const theme = {
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <MantineProvider theme={theme as any} defaultColorScheme="dark">
+    <MantineProvider theme={theme} defaultColorScheme="dark">
       <App />
     </MantineProvider>
   </StrictMode>,

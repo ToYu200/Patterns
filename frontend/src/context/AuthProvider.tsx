@@ -1,17 +1,7 @@
-import React, { createContext, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import type { AuthUser } from '../types';
 import { fetchMe, login as loginRequest, register as registerRequest } from '../api/platform';
-
-type AuthContextValue = {
-  user: AuthUser | null;
-  token: string | null;
-  loading: boolean;
-  login: (email: string, password: string) => Promise<void>;
-  register: (username: string, email: string, password: string) => Promise<void>;
-  logout: () => void;
-};
-
-export const AuthContext = createContext<AuthContextValue | null>(null);
+import { AuthContext } from './authContext';
 
 const TOKEN_KEY = 'pvp_auth_token';
 
@@ -22,12 +12,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     if (!token) {
-      setLoading(false);
-      setUser(null);
       return;
     }
 
-    setLoading(true);
     fetchMe(token)
       .then(setUser)
       .catch(() => {
