@@ -22,7 +22,9 @@ INSERT INTO users (id, username, email, password_hash, display_name, elo, role) 
 ('32cd61df-8a5e-4ef6-a21c-75ec6b3080c7', 'AerialAce', 'aerial@example.com', 'seed-hash', 'AerialAce', 2015, 'player'),
 ('a58122d4-f0fc-4dd9-90e7-974b84223d97', 'GoalLine', 'goalline@example.com', 'seed-hash', 'GoalLine', 1640, 'player'),
 ('3db8e704-2d03-4348-947a-40ddba96d2e1', 'NovaAdmin', 'nova.admin@example.com', 'seed-hash', 'NovaAdmin', 2200, 'organizer'),
-('b77a3e3e-9d3c-4b1a-a0c3-2c9ed82bb8e5', 'BracketKing', 'bracket.king@example.com', 'seed-hash', 'BracketKing', 2325, 'organizer')
+('b77a3e3e-9d3c-4b1a-a0c3-2c9ed82bb8e5', 'BracketKing', 'bracket.king@example.com', 'seed-hash', 'BracketKing', 2325, 'organizer'),
+('c9f4f608-378f-47c0-b289-3f5d3cddf2a1', 'AimCoach', 'aim.coach@example.com', 'seed-hash', 'AimCoach', 2185, 'coach'),
+('63239e3c-245c-47c7-b617-0c6d71b7eafe', 'DraftSensei', 'draft.sensei@example.com', 'seed-hash', 'DraftSensei', 2075, 'coach')
 ON CONFLICT (username) DO UPDATE SET
     email = EXCLUDED.email,
     display_name = EXCLUDED.display_name,

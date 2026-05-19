@@ -24,6 +24,13 @@ func (r *LoggingPlayerRepository) List(ctx context.Context, limit int) ([]domain
 	return players, err
 }
 
+func (r *LoggingPlayerRepository) ListByRole(ctx context.Context, role string, limit int) ([]domain.Player, error) {
+	start := time.Now()
+	players, err := r.next.ListByRole(ctx, role, limit)
+	log.Printf("players.list_by_role role=%s limit=%d count=%d took=%s err=%v", role, limit, len(players), time.Since(start), err)
+	return players, err
+}
+
 func (r *LoggingPlayerRepository) Find(ctx context.Context, id string) (domain.Player, error) {
 	start := time.Now()
 	player, err := r.next.Find(ctx, id)

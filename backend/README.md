@@ -29,9 +29,11 @@ Database schema and seed data are loaded automatically from `backend/db` on the 
 - `GET /api/players/{id}`
 - `GET /api/leaderboard`
 - `GET /api/matches/recent?limit=10`
+- `POST /api/matches/report`
 - `GET /api/tournaments?limit=20`
 - `POST /api/tournaments`
 - `GET /api/communities?limit=20`
+- `GET /api/coaches?limit=20`
 - `GET /api/overview`
 - `POST /api/matchmaking/search`
 - `POST /api/matchmaking/cancel`
@@ -48,3 +50,4 @@ Seed users can log in with password `password123`.
 - Iterator: `internal/service/leaderboard.go`
 - Composite: `internal/service/composite.go`
 - Proxy: `internal/repository/decorators.go`
+- Adapter: `internal/service/coach_adapter.go`

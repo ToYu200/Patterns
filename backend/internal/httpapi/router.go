@@ -54,9 +54,11 @@ func (h *Handler) Routes() http.Handler {
 	mux.HandleFunc("GET /api/players/{id}", h.findPlayer)
 	mux.HandleFunc("GET /api/leaderboard", h.leaderboard)
 	mux.HandleFunc("GET /api/matches/recent", h.recentMatches)
+	mux.Handle("POST /api/matches/report", h.RequireAuth(http.HandlerFunc(h.reportMatch)))
 	mux.HandleFunc("GET /api/tournaments", h.listTournaments)
 	mux.Handle("POST /api/tournaments", h.RequireAuth(http.HandlerFunc(h.createTournament)))
 	mux.HandleFunc("GET /api/communities", h.listCommunities)
+	mux.HandleFunc("GET /api/coaches", h.listCoaches)
 	mux.HandleFunc("GET /api/overview", h.overview)
 	mux.Handle("POST /api/matchmaking/search", h.RequireAuth(http.HandlerFunc(h.startSearch)))
 	mux.Handle("POST /api/matchmaking/cancel", h.RequireAuth(http.HandlerFunc(h.cancelSearch)))
@@ -139,6 +141,20 @@ func (h *Handler) recentMatches(w http.ResponseWriter, r *http.Request) {
 	writeResult(w, matches, err)
 }
 
+func (h *Handler) reportMatch(w http.ResponseWriter, r *http.Request) {
+	var input repository.ReportMatchInput
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
+		writeError(w, http.StatusBadRequest, err)
+		return
+	}
+	result, err := h.matches.ReportResult(r.Context(), input)
+	if err != nil {
+		writeError(w, http.StatusBadRequest, err)
+		return
+	}
+	writeJSON(w, http.StatusOK, result)
+}
+
 func (h *Handler) listTournaments(w http.ResponseWriter, r *http.Request) {
 	tournaments, err := h.tournaments.List(r.Context(), queryLimit(r, 20))
 	writeResult(w, tournaments, err)
@@ -162,6 +178,16 @@ func (h *Handler) createTournament(w http.ResponseWriter, r *http.Request) {
 func (h *Handler) listCommunities(w http.ResponseWriter, r *http.Request) {
 	communities, err := h.communities.List(r.Context(), queryLimit(r, 20))
 	writeResult(w, communities, err)
+}
+
+func (h *Handler) listCoaches(w http.ResponseWriter, r *http.Request) {
+	players, err := h.players.ListByRole(r.Context(), "coach", queryLimit(r, 20))
+	if err != nil {
+		writeError(w, http.StatusInternalServerError, err)
+		return
+	}
+	adapter := service.NewCoachAdapter()
+	writeJSON(w, http.StatusOK, adapter.FromPlayers(players))
 }
 
 func (h *Handler) overview(w http.ResponseWriter, r *http.Request) {
