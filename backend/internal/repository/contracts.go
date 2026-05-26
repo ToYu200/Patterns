@@ -8,11 +8,13 @@ import (
 
 type PlayerRepository interface {
 	List(ctx context.Context, limit int) ([]domain.Player, error)
+	ListByRole(ctx context.Context, role string, limit int) ([]domain.Player, error)
 	Find(ctx context.Context, id string) (domain.Player, error)
 }
 
 type MatchRepository interface {
 	Recent(ctx context.Context, limit int) ([]domain.Match, error)
+	ReportResult(ctx context.Context, input ReportMatchInput) (domain.MatchRatingResult, error)
 }
 
 type TournamentRepository interface {
@@ -46,4 +48,11 @@ type CreateUserInput struct {
 	Email        string
 	PasswordHash string
 	DisplayName  string
+}
+
+type ReportMatchInput struct {
+	MatchID    string `json:"matchId"`
+	WinnerTeam string `json:"winnerTeam"`
+	ScoreTeam1 int    `json:"scoreTeam1"`
+	ScoreTeam2 int    `json:"scoreTeam2"`
 }

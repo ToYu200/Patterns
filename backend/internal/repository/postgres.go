@@ -18,8 +18,16 @@ func NewPostgresPlayerRepository(db *sql.DB) *PostgresPlayerRepository {
 }
 
 func (r *PostgresPlayerRepository) List(ctx context.Context, limit int) ([]domain.Player, error) {
-	rows, err := r.db.QueryContext(ctx, `
-		SELECT u.id::text, u.username, COALESCE(u.avatar_url, ''), u.elo,
+	return r.list(ctx, "", limit)
+}
+
+func (r *PostgresPlayerRepository) ListByRole(ctx context.Context, role string, limit int) ([]domain.Player, error) {
+	return r.list(ctx, role, limit)
+}
+
+func (r *PostgresPlayerRepository) list(ctx context.Context, role string, limit int) ([]domain.Player, error) {
+	query := `
+		SELECT u.id::text, u.username, COALESCE(u.avatar_url, ''), u.role, u.elo,
 		       COALESCE(g.name, ''), COUNT(m.id)::int AS games,
 		       COALESCE(ROUND(100.0 * COUNT(m.id) FILTER (
 		         WHERE (m.winner_id = tr.id)
@@ -29,9 +37,12 @@ func (r *PostgresPlayerRepository) List(ctx context.Context, limit int) ([]domai
 		LEFT JOIN matches m ON m.team1_id = tr.id OR m.team2_id = tr.id
 		LEFT JOIN tournaments t ON t.id = tr.tournament_id
 		LEFT JOIN games g ON g.id = t.game_id
+		WHERE ($2 = '' OR u.role = $2)
 		GROUP BY u.id, g.name
 		ORDER BY u.elo DESC
-		LIMIT $1`, limit)
+		LIMIT $1`
+
+	rows, err := r.db.QueryContext(ctx, query, limit, role)
 	if err != nil {
 		return nil, err
 	}
@@ -40,7 +51,7 @@ func (r *PostgresPlayerRepository) List(ctx context.Context, limit int) ([]domai
 	var players []domain.Player
 	for rows.Next() {
 		var p domain.Player
-		if err := rows.Scan(&p.ID, &p.Nickname, &p.Avatar, &p.ELO, &p.FavoriteGame, &p.Games, &p.Winrate); err != nil {
+		if err := rows.Scan(&p.ID, &p.Nickname, &p.Avatar, &p.Role, &p.ELO, &p.FavoriteGame, &p.Games, &p.Winrate); err != nil {
 			return nil, err
 		}
 		p.Rank = domain.RankByELO(p.ELO)
@@ -51,7 +62,7 @@ func (r *PostgresPlayerRepository) List(ctx context.Context, limit int) ([]domai
 
 func (r *PostgresPlayerRepository) Find(ctx context.Context, id string) (domain.Player, error) {
 	row := r.db.QueryRowContext(ctx, `
-		SELECT u.id::text, u.username, COALESCE(u.avatar_url, ''), u.elo,
+		SELECT u.id::text, u.username, COALESCE(u.avatar_url, ''), u.role, u.elo,
 		       COALESCE(g.name, ''), COUNT(m.id)::int AS games,
 		       COALESCE(ROUND(100.0 * COUNT(m.id) FILTER (
 		         WHERE (m.winner_id = tr.id)
@@ -66,7 +77,7 @@ func (r *PostgresPlayerRepository) Find(ctx context.Context, id string) (domain.
 		LIMIT 1`, id)
 
 	var p domain.Player
-	if err := row.Scan(&p.ID, &p.Nickname, &p.Avatar, &p.ELO, &p.FavoriteGame, &p.Games, &p.Winrate); err != nil {
+	if err := row.Scan(&p.ID, &p.Nickname, &p.Avatar, &p.Role, &p.ELO, &p.FavoriteGame, &p.Games, &p.Winrate); err != nil {
 		return domain.Player{}, err
 	}
 	p.Rank = domain.RankByELO(p.ELO)
@@ -111,6 +122,68 @@ func (r *PostgresMatchRepository) Recent(ctx context.Context, limit int) ([]doma
 		matches = append(matches, m)
 	}
 	return matches, rows.Err()
+}
+
+func (r *PostgresMatchRepository) ReportResult(ctx context.Context, input ReportMatchInput) (domain.MatchRatingResult, error) {
+	if input.WinnerTeam != "team1" && input.WinnerTeam != "team2" {
+		return domain.MatchRatingResult{}, fmt.Errorf("winnerTeam must be team1 or team2")
+	}
+
+	tx, err := r.db.BeginTx(ctx, nil)
+	if err != nil {
+		return domain.MatchRatingResult{}, err
+	}
+	defer tx.Rollback()
+
+	var team1ID, team2ID, team1UserID, team2UserID string
+	var team1ELO, team2ELO int
+	row := tx.QueryRowContext(ctx, `
+		SELECT tr1.id::text, tr2.id::text, u1.id::text, u2.id::text, u1.elo, u2.elo
+		FROM matches m
+		JOIN tournament_registrations tr1 ON tr1.id = m.team1_id
+		JOIN tournament_registrations tr2 ON tr2.id = m.team2_id
+		JOIN users u1 ON u1.id = tr1.captain_id
+		JOIN users u2 ON u2.id = tr2.captain_id
+		WHERE m.id = $1
+		FOR UPDATE OF m, u1, u2`, input.MatchID)
+	if err := row.Scan(&team1ID, &team2ID, &team1UserID, &team2UserID, &team1ELO, &team2ELO); err != nil {
+		return domain.MatchRatingResult{}, err
+	}
+
+	aScore := 0.0
+	winnerID := team2ID
+	winnerLabel := "team2"
+	if input.WinnerTeam == "team1" {
+		aScore = 1
+		winnerID = team1ID
+		winnerLabel = "team1"
+	}
+
+	nextTeam1ELO, nextTeam2ELO := domain.NewELOCalculator(domain.DefaultELOKFactor).Apply(team1ELO, team2ELO, aScore)
+	if _, err := tx.ExecContext(ctx, `
+		UPDATE matches
+		SET winner_id = $2, status = 'finished', score_team1 = $3, score_team2 = $4, finished_at = NOW()
+		WHERE id = $1`, input.MatchID, winnerID, input.ScoreTeam1, input.ScoreTeam2); err != nil {
+		return domain.MatchRatingResult{}, err
+	}
+	if _, err := tx.ExecContext(ctx, `UPDATE users SET elo = $2 WHERE id = $1`, team1UserID, nextTeam1ELO); err != nil {
+		return domain.MatchRatingResult{}, err
+	}
+	if _, err := tx.ExecContext(ctx, `UPDATE users SET elo = $2 WHERE id = $1`, team2UserID, nextTeam2ELO); err != nil {
+		return domain.MatchRatingResult{}, err
+	}
+	if err := tx.Commit(); err != nil {
+		return domain.MatchRatingResult{}, err
+	}
+
+	return domain.MatchRatingResult{
+		MatchID: input.MatchID,
+		Winner:  winnerLabel,
+		Changes: []domain.ELOChange{
+			{UserID: team1UserID, Before: team1ELO, After: nextTeam1ELO, Delta: nextTeam1ELO - team1ELO},
+			{UserID: team2UserID, Before: team2ELO, After: nextTeam2ELO, Delta: nextTeam2ELO - team2ELO},
+		},
+	}, nil
 }
 
 type PostgresTournamentRepository struct {

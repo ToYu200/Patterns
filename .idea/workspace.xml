@@ -4,14 +4,17 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-<<<<<<< Updated upstream
     <list default="true" id="3d448bbc-6395-4fab-a9f5-3feb5182cd19" name="Changes" comment="dsadsa">
+      <change beforePath="$PROJECT_DIR$/.idea/material_theme_project_new.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/material_theme_project_new.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/LeaderboardTable.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/LeaderboardTable.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/MatchList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/MatchList.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/TopPlayers.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/TopPlayers.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/backend/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/db/001_schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/backend/db/001_schema.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/db/002_seed.sql" beforeDir="false" afterPath="$PROJECT_DIR$/backend/db/002_seed.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/internal/domain/models.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/internal/domain/models.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/internal/httpapi/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/internal/httpapi/router.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/internal/repository/contracts.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/internal/repository/contracts.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/internal/repository/decorators.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/internal/repository/decorators.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/internal/repository/postgres.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/internal/repository/postgres.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/layouts/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/layouts/Header.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/layouts/Sidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/layouts/Sidebar.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/mock/data.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/mock/data.ts" afterDir="false" />
@@ -21,10 +24,9 @@
       <change beforePath="$PROJECT_DIR$/frontend/src/pages/Profile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Profile.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/router/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/router/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/types/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/types/index.ts" afterDir="false" />
-=======
+    </list>
     <list default="true" id="3d448bbc-6395-4fab-a9f5-3feb5182cd19" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
->>>>>>> Stashed changes
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,7 +101,7 @@
     "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
-    "git-widget-placeholder": "backend-rot-ebal",
+    "git-widget-placeholder": "ashaaaaleeet",
     "go.sdk.automatically.set": "true",
     "javascript.preferred.runtime.type.id": "node",
     "last_opened_file_path": "C:/Users/Kirill/Desktop/2kurs/patterns-proektirovan/Patterns",
