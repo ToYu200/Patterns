@@ -1,4 +1,4 @@
-import type { AuthResult, AuthUser, Match, Player, Tournament } from '../types';
+import type { AuthResult, AuthUser, Match, Player, Tournament, TrainingReport } from '../types';
 import { matches, players, tournaments } from '../mock/data';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8080/api';
@@ -76,4 +76,13 @@ export function fetchMatches(limit = 10): Promise<Match[]> {
 
 export function fetchTournaments(limit = 20): Promise<Tournament[]> {
   return getJSON<Tournament[]>(`/tournaments?limit=${limit}`, tournaments);
+}
+
+export async function fetchCoachingSession(program: 'individual' | 'team'): Promise<TrainingReport> {
+  const response = await fetch(`${API_BASE_URL}/coaching/session?program=${program}`);
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.error ?? 'Не удалось загрузить тренировку');
+  }
+  return data as TrainingReport;
 }

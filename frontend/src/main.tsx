@@ -33,7 +33,7 @@ const theme: MantineThemeOverride = {
       }),
     },
   },
-};
+}
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

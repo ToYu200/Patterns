@@ -24,6 +24,26 @@ export interface Tournament {
   prize?: string;
 }
 
+export interface Coach {
+  id: string;
+  nickname: string;
+  specialty: string;
+  bio: string;
+}
+
+export interface TrainingPlan {
+  traineeId: string;
+  focus: string;
+  exercises: string[];
+}
+
+export interface TrainingReport {
+  coach: Coach;
+  program: string;
+  plans: TrainingPlan[];
+  notifications: Record<string, string[]>;
+}
+
 export interface AuthUser {
   id: string;
   username: string;

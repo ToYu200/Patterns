@@ -15,20 +15,36 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return;
     }
 
+    let active = true;
     fetchMe(token)
-      .then(setUser)
-      .catch(() => {
-        localStorage.removeItem(TOKEN_KEY);
-        setToken(null);
-        setUser(null);
+      .then((currentUser) => {
+        if (active) {
+          setUser(currentUser);
+        }
       })
-      .finally(() => setLoading(false));
+      .catch(() => {
+        if (active) {
+          localStorage.removeItem(TOKEN_KEY);
+          setToken(null);
+          setUser(null);
+        }
+      })
+      .finally(() => {
+        if (active) {
+          setLoading(false);
+        }
+      });
+
+    return () => {
+      active = false;
+    };
   }, [token]);
 
   const saveSession = useCallback((nextToken: string, nextUser: AuthUser) => {
     localStorage.setItem(TOKEN_KEY, nextToken);
     setToken(nextToken);
     setUser(nextUser);
+    setLoading(false);
   }, []);
 
   const login = useCallback(
@@ -51,6 +67,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.removeItem(TOKEN_KEY);
     setToken(null);
     setUser(null);
+    setLoading(false);
   }, []);
 
   const value = useMemo(

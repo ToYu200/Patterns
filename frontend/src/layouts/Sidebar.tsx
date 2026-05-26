@@ -2,15 +2,16 @@ import React from 'react';
 import { NavLink, Stack } from '@mantine/core';
 import { Link } from 'react-router-dom';
 
-type SidebarProps = {
-  onNavigate: () => void;
-};
+interface SidebarProps {
+  onNavigate?: () => void;
+}
 
 export const Sidebar: React.FC<SidebarProps> = ({ onNavigate }) => {
   const links = [
     { label: 'Home', to: '/' },
     { label: 'Find Match', to: '/find' },
     { label: 'Leaderboard', to: '/leaderboard' },
+    { label: 'Coaching', to: '/coaching' },
     { label: 'Profile', to: '/profile/p1' },
   ];
 

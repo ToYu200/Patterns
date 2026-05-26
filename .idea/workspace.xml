@@ -17,6 +17,16 @@
       <change beforePath="$PROJECT_DIR$/backend/internal/repository/postgres.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/internal/repository/postgres.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/layouts/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/layouts/Header.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/layouts/Sidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/layouts/Sidebar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/mock/data.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/mock/data.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/navigation.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/navigation.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/FindMatch.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/FindMatch.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Home.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Profile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Profile.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/router/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/router/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/types/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/types/index.ts" afterDir="false" />
+    </list>
+    <list default="true" id="3d448bbc-6395-4fab-a9f5-3feb5182cd19" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,6 +95,7 @@
     "RunOnceActivity.MCP Project settings loaded": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.go.analysis.ui.options.defaults": "true",
     "RunOnceActivity.go.formatter.settings.were.checked": "true",
     "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",

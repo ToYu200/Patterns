@@ -14,6 +14,13 @@ type Player struct {
 	FavoriteGame string `json:"favoriteGame,omitempty"`
 }
 
+type Coach struct {
+	ID        string `json:"id"`
+	Nickname  string `json:"nickname"`
+	Specialty string `json:"specialty"`
+	Bio       string `json:"bio"`
+}
+
 type Match struct {
 	ID      string   `json:"id"`
 	Players []string `json:"players"`
