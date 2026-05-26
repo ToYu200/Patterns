@@ -58,9 +58,9 @@ func (h *Handler) Routes() http.Handler {
 	mux.HandleFunc("GET /api/tournaments", h.listTournaments)
 	mux.Handle("POST /api/tournaments", h.RequireAuth(http.HandlerFunc(h.createTournament)))
 	mux.HandleFunc("GET /api/communities", h.listCommunities)
-	mux.HandleFunc("GET /api/coaching/session", h.coachingSession)
 	mux.HandleFunc("GET /api/coaches", h.listCoaches)
 	mux.HandleFunc("GET /api/overview", h.overview)
+	mux.HandleFunc("GET /api/coaching/session", h.coachingSession)
 	mux.Handle("POST /api/matchmaking/search", h.RequireAuth(http.HandlerFunc(h.startSearch)))
 	mux.Handle("POST /api/matchmaking/cancel", h.RequireAuth(http.HandlerFunc(h.cancelSearch)))
 	return WithCORS(WithLogging(mux))
@@ -181,15 +181,6 @@ func (h *Handler) listCommunities(w http.ResponseWriter, r *http.Request) {
 	writeResult(w, communities, err)
 }
 
-func (h *Handler) coachingSession(w http.ResponseWriter, r *http.Request) {
-	report, err := service.RunCoachingSession(r.URL.Query().Get("program"))
-	if err != nil {
-		writeError(w, http.StatusBadRequest, err)
-		return
-	}
-	writeJSON(w, http.StatusOK, report)
-}
-
 func (h *Handler) listCoaches(w http.ResponseWriter, r *http.Request) {
 	players, err := h.players.ListByRole(r.Context(), "coach", queryLimit(r, 20))
 	if err != nil {
@@ -242,6 +233,22 @@ func (h *Handler) cancelSearch(w http.ResponseWriter, r *http.Request) {
 	}
 	ticket, err := h.matchmaking.CancelSearch(input.TicketID).Execute(r.Context())
 	writeResult(w, ticket, err)
+}
+
+func (h *Handler) coachingSession(w http.ResponseWriter, r *http.Request) {
+	program := r.URL.Query().Get("program")
+	if program == "" {
+		program = "individual"
+	}
+
+	coach, roster, plans, err := service.RunCoachingSession(program)
+	if err != nil {
+		writeError(w, http.StatusBadRequest, err)
+		return
+	}
+
+	response := service.BuildResponse(coach, roster, plans)
+	writeJSON(w, http.StatusOK, response)
 }
 
 func queryLimit(r *http.Request, fallback int) int {
