@@ -57,6 +57,7 @@ func (h *Handler) Routes() http.Handler {
 	mux.HandleFunc("GET /api/tournaments", h.listTournaments)
 	mux.Handle("POST /api/tournaments", h.RequireAuth(http.HandlerFunc(h.createTournament)))
 	mux.HandleFunc("GET /api/communities", h.listCommunities)
+	mux.HandleFunc("GET /api/coaching/session", h.coachingSession)
 	mux.HandleFunc("GET /api/overview", h.overview)
 	mux.Handle("POST /api/matchmaking/search", h.RequireAuth(http.HandlerFunc(h.startSearch)))
 	mux.Handle("POST /api/matchmaking/cancel", h.RequireAuth(http.HandlerFunc(h.cancelSearch)))
@@ -162,6 +163,15 @@ func (h *Handler) createTournament(w http.ResponseWriter, r *http.Request) {
 func (h *Handler) listCommunities(w http.ResponseWriter, r *http.Request) {
 	communities, err := h.communities.List(r.Context(), queryLimit(r, 20))
 	writeResult(w, communities, err)
+}
+
+func (h *Handler) coachingSession(w http.ResponseWriter, r *http.Request) {
+	report, err := service.RunCoachingSession(r.URL.Query().Get("program"))
+	if err != nil {
+		writeError(w, http.StatusBadRequest, err)
+		return
+	}
+	writeJSON(w, http.StatusOK, report)
 }
 
 func (h *Handler) overview(w http.ResponseWriter, r *http.Request) {

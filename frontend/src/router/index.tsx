@@ -6,6 +6,7 @@ import FindMatch from '../pages/FindMatch';
 import Leaderboard from '../pages/Leaderboard';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
+import Coaching from '../pages/Coaching';
 
 export const AppRoutes: React.FC = () => {
   return (
@@ -14,6 +15,7 @@ export const AppRoutes: React.FC = () => {
       <Route path="/profile/:id" element={<Profile />} />
       <Route path="/find" element={<FindMatch />} />
       <Route path="/leaderboard" element={<Leaderboard />} />
+      <Route path="/coaching" element={<Coaching />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
     </Routes>

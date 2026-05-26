@@ -1,8 +1,18 @@
 import React from 'react';
-import { Group, Title, Button } from '@mantine/core';
+import { Burger, Group, Title, Button } from '@mantine/core';
 import { Link } from 'react-router-dom';
 
-export const HeaderBar: React.FC = () => {
+interface HeaderBarProps {
+  mobileNavOpened?: boolean;
+  onToggleMobileNav?: () => void;
+  onNavigate?: () => void;
+}
+
+export const HeaderBar: React.FC<HeaderBarProps> = ({
+  mobileNavOpened = false,
+  onToggleMobileNav,
+  onNavigate,
+}) => {
   return (
     <Group 
       justify="space-between" 
@@ -16,17 +26,29 @@ export const HeaderBar: React.FC = () => {
         backgroundColor: 'rgba(10, 14, 21, 0.6)',
       }}
     >
-      <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-        <Title order={3} style={{ margin: 0, letterSpacing: '2px' }}>
-          PvP Academy
-        </Title>
-      </Link>
+      <Group gap="sm" wrap="nowrap">
+        <Burger
+          opened={mobileNavOpened}
+          onClick={onToggleMobileNav}
+          hiddenFrom="sm"
+          size="sm"
+          aria-label="Открыть меню"
+        />
+        <Link to="/" onClick={onNavigate} style={{ textDecoration: 'none', color: 'inherit' }}>
+          <Title order={3} style={{ margin: 0, letterSpacing: '2px' }}>
+            PvP Academy
+          </Title>
+        </Link>
+      </Group>
 
       <Group gap="xs" wrap="nowrap">
-        <Button component={Link} to="/find" variant="light" size="sm">
+        <Button component={Link} to="/coaching" onClick={onNavigate} variant="light" size="sm">
+          Coaching
+        </Button>
+        <Button component={Link} to="/find" onClick={onNavigate} variant="subtle" size="sm">
           Find Match
         </Button>
-        <Button component={Link} to="/leaderboard" variant="subtle" size="sm">
+        <Button component={Link} to="/leaderboard" onClick={onNavigate} variant="subtle" size="sm">
           Leaderboard
         </Button>
       </Group>

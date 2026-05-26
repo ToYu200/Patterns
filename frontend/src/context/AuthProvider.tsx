@@ -1,17 +1,7 @@
-import React, { createContext, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import type { AuthUser } from '../types';
 import { fetchMe, login as loginRequest, register as registerRequest } from '../api/platform';
-
-type AuthContextValue = {
-  user: AuthUser | null;
-  token: string | null;
-  loading: boolean;
-  login: (email: string, password: string) => Promise<void>;
-  register: (username: string, email: string, password: string) => Promise<void>;
-  logout: () => void;
-};
-
-export const AuthContext = createContext<AuthContextValue | null>(null);
+import { AuthContext } from './authContext';
 
 const TOKEN_KEY = 'pvp_auth_token';
 
@@ -22,26 +12,39 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     if (!token) {
-      setLoading(false);
-      setUser(null);
       return;
     }
 
-    setLoading(true);
+    let active = true;
     fetchMe(token)
-      .then(setUser)
-      .catch(() => {
-        localStorage.removeItem(TOKEN_KEY);
-        setToken(null);
-        setUser(null);
+      .then((currentUser) => {
+        if (active) {
+          setUser(currentUser);
+        }
       })
-      .finally(() => setLoading(false));
+      .catch(() => {
+        if (active) {
+          localStorage.removeItem(TOKEN_KEY);
+          setToken(null);
+          setUser(null);
+        }
+      })
+      .finally(() => {
+        if (active) {
+          setLoading(false);
+        }
+      });
+
+    return () => {
+      active = false;
+    };
   }, [token]);
 
   const saveSession = useCallback((nextToken: string, nextUser: AuthUser) => {
     localStorage.setItem(TOKEN_KEY, nextToken);
     setToken(nextToken);
     setUser(nextUser);
+    setLoading(false);
   }, []);
 
   const login = useCallback(
@@ -64,6 +67,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.removeItem(TOKEN_KEY);
     setToken(null);
     setUser(null);
+    setLoading(false);
   }, []);
 
   const value = useMemo(
