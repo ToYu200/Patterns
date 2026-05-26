@@ -17,8 +17,7 @@ type Container struct {
 	handler *httpapi.Handler
 }
 
-// NewContainer is the application Factory: it wires concrete implementations
-// behind interfaces and keeps main.go free from construction details.
+
 func NewContainer(cfg config.Config) (*Container, error) {
 	db, err := platform.Database(cfg.DatabaseURL)
 	if err != nil {
