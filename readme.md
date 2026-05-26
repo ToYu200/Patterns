@@ -42,11 +42,11 @@ func Database(databaseURL string) (*sql.DB, error) {
 
 ---
 
-## 2. **Factory / Factory Method (Фабрика)**
+## 2. **Factory + Factory Method (Фабрика + Фабричный метод)**
 
-**Назначение:** Инкапсулирует создание объектов и связывание зависимостей.
+**Назначение Factory:** Инкапсулирует создание объектов и связывание зависимостей.
 
-**Где используется:** `backend/internal/app/container.go`
+**Где используется Factory:** `backend/internal/app/container.go`
 
 **Точные фрагменты кода:**
 
@@ -84,6 +84,59 @@ func NewContainer(cfg config.Config) (*Container, error) {
 - Скрывает детали инициализации репозиториев и сервисов
 - Позволяет `main.go` не знать о деталях создания объектов
 - Упрощает тестирование (легко подменять зависимости)
+
+**Назначение Factory Method:** Делегирует создание объекта конкретному creator-типу через общий фабричный метод.
+
+**Где используется Factory Method:** `backend/internal/service/matchmaking.go`
+
+**Точные фрагменты кода:**
+
+```go
+type CommandCreator interface {
+	CreateCommand(service *MatchmakingService, input CommandInput) Command
+}
+
+type StartSearchCommandCreator struct{}
+
+func (c StartSearchCommandCreator) CreateCommand(service *MatchmakingService, input CommandInput) Command {
+	return StartSearchCommand{
+		service: service,
+		userID:  input.UserID,
+		mode:    input.Mode,
+		region:  input.Region,
+	}
+}
+
+type CancelSearchCommandCreator struct{}
+
+func (c CancelSearchCommandCreator) CreateCommand(service *MatchmakingService, input CommandInput) Command {
+	return CancelSearchCommand{
+		service:  service,
+		ticketID: input.TicketID,
+	}
+}
+```
+
+**Применение фабричного метода:**
+
+```go
+func (s *MatchmakingService) StartSearch(userID, mode, region string) Command {
+	creator := StartSearchCommandCreator{}
+	return creator.CreateCommand(s, CommandInput{UserID: userID, Mode: mode, Region: region})
+}
+
+func (s *MatchmakingService) CancelSearch(ticketID string) Command {
+	creator := CancelSearchCommandCreator{}
+	return creator.CreateCommand(s, CommandInput{TicketID: ticketID})
+}
+```
+
+**Почему это Factory Method:**
+- `CommandCreator` задаёт общий фабричный метод `CreateCommand()`
+- `StartSearchCommandCreator` создаёт команду запуска поиска
+- `CancelSearchCommandCreator` создаёт команду отмены поиска
+- Клиент работает с общим результатом `Command`, а конкретный creator выбирает создаваемый тип
+- Добавление новой команды требует нового creator-типа, не изменения существующих команд
 
 ---
 
@@ -1034,6 +1087,7 @@ for iterator.HasNext() {
 |---------|------|--------|-----------|
 | **Singleton** | `backend/internal/platform/db.go` | 11–30 | Единственный пул БД |
 | **Factory** | `backend/internal/app/container.go` | 15–39 | Создание зависимостей приложения |
+| **Factory Method** | `backend/internal/service/matchmaking.go` | 14–48 | Создание конкретных команд матчмейкинга |
 | **Decorator** | `backend/internal/repository/decorators.go` | 12–25 | Логирование запросов |
 | **Proxy** | `backend/internal/repository/decorators.go` | 41–86 | Кэширование турниров |
 | **Command** | `backend/internal/service/matchmaking.go` | 14–75 | Операции матчмейкинга |

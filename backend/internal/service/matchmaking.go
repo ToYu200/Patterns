@@ -15,6 +15,37 @@ type Command interface {
 	Execute(ctx context.Context) (domain.MatchmakingTicket, error)
 }
 
+type CommandInput struct {
+	UserID   string
+	Mode     string
+	Region   string
+	TicketID string
+}
+
+type CommandCreator interface {
+	CreateCommand(service *MatchmakingService, input CommandInput) Command
+}
+
+type StartSearchCommandCreator struct{}
+
+func (c StartSearchCommandCreator) CreateCommand(service *MatchmakingService, input CommandInput) Command {
+	return StartSearchCommand{
+		service: service,
+		userID:  input.UserID,
+		mode:    input.Mode,
+		region:  input.Region,
+	}
+}
+
+type CancelSearchCommandCreator struct{}
+
+func (c CancelSearchCommandCreator) CreateCommand(service *MatchmakingService, input CommandInput) Command {
+	return CancelSearchCommand{
+		service:  service,
+		ticketID: input.TicketID,
+	}
+}
+
 type MatchmakingService struct {
 	mu      sync.RWMutex
 	tickets map[string]domain.MatchmakingTicket
@@ -25,11 +56,13 @@ func NewMatchmakingService() *MatchmakingService {
 }
 
 func (s *MatchmakingService) StartSearch(userID, mode, region string) Command {
-	return StartSearchCommand{service: s, userID: userID, mode: mode, region: region}
+	creator := StartSearchCommandCreator{}
+	return creator.CreateCommand(s, CommandInput{UserID: userID, Mode: mode, Region: region})
 }
 
 func (s *MatchmakingService) CancelSearch(ticketID string) Command {
-	return CancelSearchCommand{service: s, ticketID: ticketID}
+	creator := CancelSearchCommandCreator{}
+	return creator.CreateCommand(s, CommandInput{TicketID: ticketID})
 }
 
 type StartSearchCommand struct {

@@ -45,6 +45,7 @@ Seed users can log in with password `password123`.
 
 - Singleton: `internal/platform/db.go`
 - Factory: `internal/app/container.go`
+- Factory Method: `internal/service/matchmaking.go`
 - Decorator: `internal/repository/decorators.go`, `internal/httpapi/router.go`
 - Command: `internal/service/matchmaking.go`
 - Template Method: `internal/service/tournament_builder.go`
